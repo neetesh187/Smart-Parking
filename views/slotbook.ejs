@@ -1,0 +1,103 @@
+<%- include('partials/header') %> 
+
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary navhead">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/" id="topone">
+            Park Up
+          </a>
+
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+
+            
+              <span style="width: 10px;"> </span>
+              
+              <li class="nav-item">
+                <a class="btn btn-light" href="/logout" role="button">Logout</a>
+              </li>
+              <span style="width: 10px;"> </span>
+
+            </ul>
+          </div>
+        </div>
+    </nav>
+   <!-- navbar ends -->
+  
+    <div class="form-container mt-5">
+
+        <form class="w-50 mx-auto" id="entryForm" action="/slotbook/<%=usename %>"  method="POST">
+          <h5 class="text-center">Book your slot</h5>
+            <div class="form-group">
+                <label for="owner">Owner:</label>
+                <input type="text" class="form-control rounded-0 shadow-sm" id="owner" name="owner" value="<%= ownername %>" placeholder="Owner">
+            </div>
+
+            <div class="form-group">
+              <label for="vehicle">Select vehicle :</label>
+
+              <select name="typeNo" id="vDetail" class="form-control rounded-0 shadow-sm" onclick="showOrHideDiv()" >
+                <% for(var i=0; i<vechile.length; i++) {%>
+                  <option value="<%= vechile[i].vehicleType %> ( <%= vechile[i].vehicleNumber %> )">
+                    <%= vechile[i].vehicleType %> ( <%= vechile[i].vehicleNumber %> )
+                  </option> 
+                <% } %>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="licensePlate">Parking Location :</label>
+              <input type="text" class="form-control rounded-0 shadow-sm" id="location" name="location" value="<%= parkLoc.location%>" placeholder="NN-NN-LL,NN-LL-NN,....etc">
+          </div>
+
+          <div class="form-group">
+            <label for="pType">Need parking slot for: </label>
+            <br>
+            <input type="radio" id="oneHr" name="pType" value="<%= parkLoc.ncharge1 %>" autocomplete="off">
+            <label for="oneHr">1 Hour (₹<%= parkLoc.ncharge1 %>.00)</label>
+            <br>
+            <input type="radio" id="twoHr" name="pType" value="<%= parkLoc.ncharge2 %>" autocomplete="off">
+            <label for="twoHr">2 Hours (₹<%= parkLoc.ncharge2 %>.00)</label>
+            <br>
+            <input type="radio" id="threeHr" name="pType" value="<%= parkLoc.ncharge3 %>" autocomplete="off">
+            <label for="threeHr">3 Hours (₹<%= parkLoc.ncharge3 %>.00)</label>
+          </div>
+
+          <% if(parkLoc.eVCharge =="Yes") {%> 
+          <div class="form-group toggle-btn" id="electric">
+            <label for="chargePort">Want to Charge the vehicle: </label>
+            <br>
+            <input type="radio" name="chargePort" id="yes" value="Yes" autocomplete="off">
+            <label for="yes">Yes</label>
+            <br>
+            <input type="radio" name="chargePort" id="no" value="No" autocomplete="off">
+            <label for="no">No</label>
+          </div>
+          <% } %> 
+            <button type="submit" class="btn mx-auto d-block mt-5 rounded-0 shadow" id="btnOne">Book Slot</button>
+        </form>
+    </div>
+
+    <script>
+            
+      function showOrHideDiv() {
+        var select = document.getElementById("vDetail");
+  			var option = select.options[select.selectedIndex];
+        var optiontext = option.text;
+        optiontext = optiontext.substring(0,optiontext.indexOf("("));
+        var v = document.getElementById("electric");
+          if (optiontext === "Electric ") {
+            v.style.display = "block";
+          }else {              
+            v.style.display = "none";
+          }
+        }
+      
+    </script>
+</body>
+
+</html>
